@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.starkplayer.controller.MusicPlayerController"
+            styleClass="root">
+
+    <top>
+        <ToolBar styleClass="toolbar">
+            <Button text="📁 Load Folder" onAction="#onLoadFolder" styleClass="toolbar-button"/>
+            <Button text="➕ Add Files" onAction="#onAddFiles" styleClass="toolbar-button"/>
+            <Button text="💾 Save Playlist" onAction="#onSavePlaylist" styleClass="toolbar-button"/>
+            <Button text="📂 Load Playlist" onAction="#onLoadPlaylist" styleClass="toolbar-button"/>
+            <Separator orientation="VERTICAL"/>
+            <Label text="🎵 StarkPlayer" styleClass="title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Visualizer:" styleClass="label-small"/>
+            <ComboBox fx:id="vizModeCombo" prefWidth="120"/>
+            <Separator orientation="VERTICAL"/>
+            <ToggleButton fx:id="btnShuffle" text="🔀 Shuffle" onAction="#onShuffleToggle" styleClass="toggle-button"/>
+            <ToggleButton fx:id="btnRepeat" text="🔁 Repeat" onAction="#onRepeatToggle" styleClass="toggle-button"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.65" styleClass="split-pane">
+            <VBox spacing="15" styleClass="main-content">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Album Art and Song Info -->
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <ImageView fx:id="albumArt" fitWidth="180" fitHeight="180" preserveRatio="true" styleClass="album-art"/>
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label text="Now Playing" styleClass="labelHeader"/>
+                        <Label fx:id="lblNowPlaying" text="-" styleClass="nowPlaying"/>
+                        <Label fx:id="lblArtist" text="Unknown Artist" styleClass="song-info"/>
+                        <Label fx:id="lblAlbum" text="Unknown Album" styleClass="song-info-small"/>
+                        <HBox spacing="15">
+                            <Label fx:id="lblGenre" text="" styleClass="song-info-small"/>
+                            <Label fx:id="lblYear" text="" styleClass="song-info-small"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <!-- Visualizer -->
+                <VBox spacing="5">
+                    <Label text="Audio Visualizer" styleClass="labelHeader"/>
+                    <Canvas fx:id="visualizerCanvas" width="700" height="150" styleClass="visualizer"/>
+                </VBox>
+
+                <!-- Progress and Time -->
+                <VBox spacing="5">
+                    <HBox spacing="10" alignment="CENTER">
+                        <Label fx:id="lblCurrentTime" text="00:00" styleClass="time-label"/>
+                        <Slider fx:id="progressSlider" HBox.hgrow="ALWAYS" styleClass="progress-slider"/>
+                        <Label fx:id="lblTotalTime" text="00:00" styleClass="time-label"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Control Buttons -->
+                <HBox fx:id="controlButtons" spacing="10" alignment="CENTER" styleClass="controls">
+                    <Button fx:id="btnPrev" onAction="#onPrev" styleClass="control-button">
+                        <tooltip>
+                            <Tooltip text="Previous Song"/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="btnPlay" onAction="#onPlay" styleClass="control-button play-button">
+                        <tooltip>
+                            <Tooltip text="Play/Pause"/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="btnStop" onAction="#onStop" styleClass="control-button">
+                        <tooltip>
+                            <Tooltip text="Stop"/>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="btnNext" onAction="#onNext" styleClass="control-button">
+                        <tooltip>
+                            <Tooltip text="Next Song"/>
+                        </tooltip>
+                    </Button>
+                </HBox>
+
+                <!-- Volume Control -->
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="🔊 Volume" styleClass="label-small"/>
+                    <Slider fx:id="volumeSlider" prefWidth="200" min="0" max="100" value="50" styleClass="volume-slider"/>
+                </HBox>
+
+                <!-- Equalizer -->
+                <VBox spacing="5" visible="false" managed="false">
+                    <Label text="Equalizer" styleClass="labelHeader"/>
+                    <HBox fx:id="equalizerBox" spacing="5" alignment="BOTTOM_CENTER"/>
+                </VBox>
+
+            </VBox>
+
+            <!-- Playlist Panel -->
+            <VBox spacing="10" styleClass="playlist-panel">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <Label text="Playlist" styleClass="labelHeader"/>
+                
+                <!-- Search -->
+                <HBox spacing="10">
+                    <TextField fx:id="searchField" promptText="🔍 Search songs..." HBox.hgrow="ALWAYS" styleClass="search-field"/>
+                </HBox>
+
+                <ListView fx:id="playlistView" VBox.vgrow="ALWAYS" styleClass="playlist-view"/>
+                
+                <Label text="💡 Drag &amp; drop MP3 files here or use Load Folder" 
+                       styleClass="hint-label"/>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="status-bar">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10"/>
+            </padding>
+            <Label text="Ready" styleClass="status-label"/>
+        </HBox>
+    </bottom>
+</BorderPane>
